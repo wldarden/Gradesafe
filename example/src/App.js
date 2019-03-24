@@ -1,12 +1,18 @@
 import React from 'react'
-import PackageComponent, {PackageSubcomponent} from 'package-template'
+import Login, {StudentView, TeacherView} from 'package-template'
 
 export default function App () {
   return (
     <div>
-      <h1>{'C2 <Package>'}</h1>
-      <PackageComponent />
-      <PackageSubcomponent />
+      <div style={{marginBottom: '250px'}}>
+        <Login />
+      </div>
+      <div style={{marginBottom: '250px'}}>
+        <StudentView/>
+      </div>
+      <div>
+        <TeacherView/>
+      </div>
     </div>
   )
 }
