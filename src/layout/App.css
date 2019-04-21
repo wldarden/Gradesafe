@@ -1,0 +1,31 @@
+.user-account {
+	/*margin-top: -75px;*/
+}
+
+.main-tabs {
+	margin-top: 10px !important;
+	margin-left: 0px !important;
+}
+
+.pointer:hover {
+	cursor: pointer;
+}
+
+.btn-primary.disabled,
+.btn-primary[disabled],
+fieldset[disabled] .btn-primary,
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled:active,
+.btn-primary[disabled]:active,
+fieldset[disabled] .btn-primary:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled].active,
+fieldset[disabled] .btn-primary.active {
+  background-color: #830D11 !important;
+  border-color: #830D11;
+}
