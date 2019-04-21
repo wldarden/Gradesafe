@@ -1,6 +1,6 @@
 import React from 'react'
 import {Route, IndexRedirect, IndexRoute} from 'react-router'
-import App from './App'
+import App from './layout/components/App'
 import Login from './Login/components/Login'
 import NotFound from './Layout/components/NotFound'
 // import LoggedOut from './Login/components/LoggedOut'
