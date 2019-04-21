@@ -2,6 +2,8 @@ import React from 'react'
 import {Route, IndexRedirect, IndexRoute} from 'react-router'
 import App from './layout/components/App'
 import Login from './Login/components/Login'
+import StudentView from './Student/components/StudentView'
+import TeacherView from './Teacher/components/TeacherView'
 import NotFound from './Layout/components/NotFound'
 // import LoggedOut from './Login/components/LoggedOut'
 // import {getAuth} from './http_utils'
@@ -21,7 +23,8 @@ const routes = (
   <Route path='/' name='Home' component={App}>
     {getRootRedirect()}
     <Route path='login' component={Login} />
-
+    <Route path='student' component={StudentView} />
+    <Route path='teacher' component={TeacherView} />
     <Route path='*' component={NotFound} />
   </Route>
 )

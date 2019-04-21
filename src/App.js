@@ -12,7 +12,6 @@ export default class App extends Component {
 
   render () {
     const {store, history, routes} = this.props
-    console.log(this.props, store, this.props.store, 'App props loggggggggggg')
     return (
       <Provider store={store}>
         <div>
