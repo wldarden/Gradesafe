@@ -1,0 +1,385 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "vzw-icons";
+  src:url("fonts/vzw-icons.eot");
+  src:url("fonts/vzw-icons.eot?#iefix") format("embedded-opentype"),
+    url("fonts/vzw-icons.woff") format("woff"),
+    url("fonts/vzw-icons.ttf") format("truetype"),
+    url("fonts/vzw-icons.svg#vzw-icons") format("svg");
+  src:  url('fonts/VSON.eot');
+  src:  url('fonts/VSON.eot?#iefix') format('embedded-opentype'),
+    url('fonts/VSON.ttf') format('truetype'),
+    url('fonts/VSON.woff') format('woff'),
+    url('fonts/VSON.svg#VSON') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "vson-icons";
+  src:  url('fonts/VSON.eot');
+  src:  url('fonts/VSON.eot?#iefix') format('embedded-opentype'),
+  url('fonts/VSON.ttf') format('truetype'),
+  url('fonts/VSON.woff') format('woff'),
+  url('fonts/VSON.svg#VSON') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[data-icon]:before {
+  font-family: "vzw-icons" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: "vzw-icons" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.vson-icon {
+  font-family: "vson-icons" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.vson-icon-polygon:before {
+  font-size:15px;
+  content: "\e900";
+}
+.vson-icon-layers:before {
+  font-size:9px;
+  content: "\e901";
+}
+
+.icon-accounts-services:before {
+  content: "\77";
+}
+.icon-alert:before {
+  content: "\78";
+}
+.icon-asset-management:before {
+  content: "\79";
+}
+.icon-asset-tracking:before {
+  content: "\7a";
+}
+.icon-attachment:before {
+  content: "\41";
+}
+.icon-back-caret:before {
+  content: "\42";
+}
+.icon-back-up:before {
+  content: "\43";
+}
+.icon-battery-life-10:before {
+  content: "\44";
+}
+.icon-bill:before {
+  content: "\45";
+}
+.icon-booklet:before {
+  content: "\46";
+}
+.icon-bookmark:before {
+  content: "\47";
+}
+.icon-calendar-date:before {
+  content: "\48";
+}
+.icon-calendar-general:before {
+  content: "\49";
+}
+.icon-call-log:before {
+  content: "\4a";
+}
+.icon-car:before {
+  content: "\4b";
+}
+.icon-car-side-view:before {
+  content: "\4c";
+}
+.icon-cloud-services:before {
+  content: "\4d";
+}
+.icon-communication:before {
+  content: "\4e";
+}
+.icon-compose:before {
+  content: "\4f";
+}
+.icon-connectivity:before {
+  content: "\50";
+}
+.icon-data:before {
+  content: "\51";
+}
+.icon-direct-call:before {
+  content: "\52";
+}
+.icon-download:before {
+  content: "\53";
+}
+.icon-emails-calls:before {
+  content: "\54";
+}
+.icon-external-link:before {
+  content: "\55";
+}
+.icon-external-link-1:before {
+  content: "\56";
+}
+.icon-federal-civilian:before {
+  content: "\57";
+}
+.icon-file:before {
+  content: "\58";
+}
+.icon-filter:before {
+  content: "\59";
+}
+.icon-finance:before {
+  content: "\5a";
+}
+.icon-finger:before {
+  content: "\30";
+}
+.icon-flag:before {
+  content: "\31";
+}
+.icon-fleet-management:before {
+  content: "\32";
+}
+.icon-forward:before {
+  content: "\33";
+}
+.icon-forward-caret:before {
+  content: "\34";
+}
+.icon-gps-1:before {
+  content: "\35";
+  vertical-align: text-top;
+  margin-bottom: 1px;
+  margin-right: -5px;
+}
+.icon-health-wellness:before {
+  content: "\36";
+}
+.icon-healthcare:before {
+  content: "\37";
+}
+.icon-home:before {
+  content: "\38";
+}
+.icon-info:before {
+  content: "\21";
+}
+.icon-ip-icon:before {
+  content: "\22";
+}
+.icon-lightbulb:before {
+  content: "\23";
+}
+.icon-lightning:before {
+  content: "\24";
+}
+.icon-link:before {
+  content: "\25";
+}
+.icon-lock:before {
+  content: "\26";
+}
+.icon-mail:before {
+  content: "\27";
+}
+.icon-manage-sub-accounts:before {
+  content: "\28";
+}
+.icon-map:before {
+  content: "\29";
+}
+.icon-maximize:before {
+  content: "\2a";
+}
+.icon-menu:before {
+  content: "\2b";
+}
+.icon-minimize:before {
+  content: "\2c";
+}
+.icon-minus:before {
+  content: "\2d";
+}
+.icon-mobile-command-center:before {
+  content: "\2e";
+}
+.icon-networking-monitoring:before {
+  content: "\2f";
+}
+.icon-optical-network:before {
+  content: "\3a";
+}
+.icon-outgoing-calls:before {
+  content: "\3b";
+}
+.icon-pause:before {
+  content: "\3c";
+}
+.icon-pencil:before {
+  content: "\3d";
+}
+.icon-people:before {
+  content: "\3e";
+}
+.icon-phone:before {
+  content: "\3f";
+}
+.icon-phone-receiver:before {
+  content: "\40";
+}
+.icon-phone-signal:before {
+  content: "\5b";
+}
+.icon-photo:before {
+  content: "\5d";
+}
+.icon-plane:before {
+  content: "\5e";
+}
+.icon-play:before {
+  content: "\5f";
+}
+.icon-plus:before {
+  content: "\60";
+}
+.icon-power:before {
+  content: "\7b";
+}
+.icon-power-user:before {
+  content: "\7c";
+}
+.icon-printer:before {
+  content: "\7d";
+}
+.icon-productivity:before {
+  content: "\7e";
+}
+.icon-question-mark:before {
+  content: "\5c";
+}
+.icon-recording:before {
+  content: "\e000";
+}
+.icon-refresh:before {
+  content: "\e001";
+}
+.icon-reply:before {
+  content: "\e002";
+}
+.icon-reply-all:before {
+  content: "\e003";
+}
+.icon-router:before {
+  content: "\e004";
+}
+.icon-search-1:before {
+  content: "\e005";
+}
+.icon-send:before {
+  content: "\e006";
+}
+.icon-settings:before {
+  content: "\e007";
+}
+.icon-share:before {
+  content: "\e008";
+}
+.icon-star:before {
+  content: "\e009";
+}
+.icon-stop:before {
+  content: "\e00a";
+}
+.icon-switch:before {
+  content: "\e00b";
+}
+.icon-sync:before {
+  content: "\e00c";
+}
+.icon-technician:before {
+  content: "\e00d";
+}
+.icon-technology-1:before {
+  content: "\e00e";
+}
+.icon-thumbs-down:before {
+  content: "\e00f";
+}
+.icon-thumbs-up:before {
+  content: "\e010";
+}
+.icon-tools-1:before {
+  content: "\e011";
+}
+.icon-touch-screen:before {
+  content: "\e012";
+}
+.icon-truck:before {
+  content: "\e013";
+}
+.icon-unlock:before {
+  content: "\e014";
+}
+.icon-upload:before {
+  content: "\e015";
+}
+.icon-user:before {
+  content: "\e016";
+}
+.icon-vv-carbattery:before {
+  content: "\e017";
+}
+.icon-vv-incidentalert:before {
+  content: "\e018";
+}
+.icon-watch-1:before {
+  content: "\e019";
+}
+.icon-wifi:before {
+  content: "\e01a";
+}
+.icon-wishlist:before {
+  content: "\e01b";
+}
+.icon-zoom-in:before {
+  content: "\e01c";
+}
+.icon-zoom-out:before {
+  content: "\e01d";
+}
+.icon-home-1:before {
+  content: "\63";
+}
