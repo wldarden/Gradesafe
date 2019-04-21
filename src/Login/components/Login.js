@@ -6,17 +6,21 @@ class _Login extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      userType: 'student'
+      userType: 'student',
+      userName: '',
+      password: ''
     }
   }
   userTypes = ['Student', 'Teacher', 'Admin']
 
   login = () => {
-    this.props.push(`/${this.state.userType}`)
+    if (this.state.userName === 'will' && this.state.password === '123') {
+      this.props.push(`/${this.state.userType}`)
+    }
   }
 
   onUserTypeChange = (e) => { this.setState({userType: e.target.value}) }
-
+  onInputChange = (e) => { this.setState({[e.target.name]: e.target.value}) }
   render () {
     return (
       <div>
@@ -37,11 +41,23 @@ class _Login extends Component {
           <div style={{margin: 'auto', border: '1px solid blue', width: '200px'}}>
             <div style={{margin: '10px'}}>
               <span style={{marginRight: '10px'}}>Username:</span>
-              <span><input /></span>
+              <span>
+                <input
+                  name={'userName'}
+                  onChange={this.onInputChange}
+                  value={this.state.userName}
+                />
+              </span>
             </div>
             <div style={{margin: '10px'}}>
               <span style={{marginRight: '10px'}}>Password:</span>
-              <span><input /></span>
+              <span>
+                <input
+                  name={'password'}
+                  onChange={this.onInputChange}
+                  value={this.state.password}
+                />
+              </span>
             </div>
           </div>
           <div style={{margin: '10px'}}>

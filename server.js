@@ -14,8 +14,8 @@ app.use(express.static(path.join(__dirname, 'dist')))
 app.get('/user', function (req, res) {
   res.setHeader('Content-Type', 'application/json')
   res.send(JSON.stringify({
-    username: 'David',
-    email: 'foo@bar.com'
+    username: 'Will Darden',
+    email: 'wldarden@gmail.com'
   }))
 });
 
