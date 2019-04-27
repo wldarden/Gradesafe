@@ -1,6 +1,6 @@
 Requirements:
 
-Node
+Node (We used nvm to install. any version greater than 8.4.1 has been proven to work. earlier versions may work too.)
 
 Mysql
 
@@ -8,7 +8,9 @@ React
 
 Running node:
 
-Once the project is cloned to your local repositorty, run the following commands to start the node server
+**It is important the following commands are run sequentially. start the server first, and then start the react frontend.**
+
+Once the project is cloned to your local repository, run the following commands to start the node server
 
 $ git clone https://github.com/wldarden/Gradesafe.git
 
@@ -22,8 +24,10 @@ Running react project:
 
 Open a new terminal and run the following commands:
 
-$ cd Gradesafe
-
 $ npm install
 
 $ npm start
+
+$ y
+
+The app is now running. in a chrome browser, go to "localhost:3001"
