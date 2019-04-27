@@ -23,8 +23,8 @@ con.connect(function(err) {
 });
 
 //security regex
-var validEmailRE = new RegExp('/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix');
-var validPWRE = new RegExp('/^(?=.*\d)(?=.*[!@#$%])(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8}$/');
+var validEmailRE = /^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/i;
+var validPWRE = /^(?=.*\d)(?=.*[!@#$%])(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8}$/;
 
 //security helper funcs
 var vEmail = (str) => validEmailRE.test(str)
@@ -36,17 +36,23 @@ app.post('/login', function (req, res) {// student
   let username = req.body.email
   let password = req.body.password
   let userType = req.body.userType === 'teacher' ? 'professor' : req.body.userType
-  let query = 'select * from ' + userType + ' where EMAIL = ' + "'" + username + "'" + ' and PASSWORD = ' + "'" + md5(password) + "'"
-  con.connect((err) => {
-    con.query(query, (err, response) => {
-      if (response && !err) {
-        res.send(response);
-      } else {
-        res.status(400).send({message: "Unable to login with that information"})
-      }
+  if (!vEmail(username)) {
+    res.status(402).send({message: 'Invalid email format'})
+  } else {// if (!vPW(password)) {
+  //  res.status(402).send({message: 'Invalid password format'})
+  //} else {
+    let query = 'select * from ' + userType + ' where EMAIL = ' + "'" + username + "'" + ' and PASSWORD = ' + "'" + md5(password) + "'"
+    con.connect((err) => {
+      con.query(query, (err, response) => {
+        if (response && !err) {
+          res.send(response);
+        } else {
+          res.status(400).send({message: "Unable to login with that information"})
+        }
 
+      })
     })
-  })
+  }
 });
 
 app.post('/classes', function (req, res) {// student
@@ -100,7 +106,7 @@ app.post('/class/student', function (req, res) {// student
 
 app.post('/class/teacher', function (req, res) {// student
   let cId = req.body.cId
-  let query = 'SELECT S.FNAME, S.LNAME, G.ASSIGNMENTS, G.GRADE FROM student S, grades G, professor P WHERE P.C_ID=' + "'" + cId + "'" + ' AND G.C_ID=P.C_ID AND S.S_ID=G.S_ID;'
+  let query = 'SELECT S.FNAME, S.LNAME, S.S_ID, G.ASSIGNMENTS, G.GRADE FROM student S, grades G, professor P WHERE P.C_ID=' + "'" + cId + "'" + ' AND G.C_ID=P.C_ID AND S.S_ID=G.S_ID;'
   con.connect((err) => {
     con.query(query, (err, response) => {
       if (response && !err) {

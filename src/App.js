@@ -9,11 +9,14 @@ import { Route } from 'react-router-dom';
 class App extends Component {
   render() {
     return (
-      <div className="App">
-          <Route exact path='/' component={Login}/>
-          <Route exact path='/student' component={Student}/>
-          <Route exact path='/teacher' component={Teacher}/>
-          <Route exact path='/classes' component={ClassList} />
+      <div style={{backgroundColor: '#007bff', height: '1000px'}}>
+        <div style={{backgroundColor: '#fd7e14', textAlign: 'center', font: 'Times'}}><h2>Uta Gradesafe</h2></div>
+        <div className="App" style={{backgroundColor: 'lightGrey'}}>
+            <Route exact path='/' component={Login}/>
+            <Route exact path='/student' component={Student}/>
+            <Route exact path='/teacher' component={Teacher}/>
+            <Route exact path='/classes' component={ClassList} />
+        </div>
       </div>
     );
   }

@@ -47,7 +47,7 @@ class StudentView extends Component {
 
   render () {
     return (
-      <div style={{border: '3px solid black', width: '100%'}}>
+      <div style={{border: '3px solid black', width: '100%', marginTop: '200px'}}>
         <div style={{display: 'flex', flexDirection: 'row'}}>
           <div style={{width: '70%'}}>Welcome, {this.props.user.FNAME}</div><span onClick={this.onLogout}>Logout</span>
         </div>
@@ -67,7 +67,7 @@ class StudentView extends Component {
                     if (grade > 90) {
                       style.backgroundColor = 'lightgreen'
                     } else if (grade > 80) {
-                      style.backgroundColor = 'white'
+                      style.backgroundColor = 'lightGrey'
                     } else if (grade > 70) {
                       style.backgroundColor = 'orange'
                     } else if (grade < 30){

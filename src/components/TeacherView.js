@@ -4,9 +4,7 @@ import {fetchClassInfoForTeacher} from '../redux/actions'
 import {DataForStudentCourse} from '../redux/selector'
 import {Set} from 'immutable'
 // const labelOrder = ['Assignment', 'Assigned', 'Due', 'Grade']
-const N_ASSIGNMENTS = 9
-const N_STUDENTS = 10
-const COL_WIDTH = 100
+const COL_WIDTH = 150
 // const assignmentKeyLabels = {
 //   Assignment: 'name',
 //   Grade: 'grade',
@@ -14,39 +12,10 @@ const COL_WIDTH = 100
 //   Assigned: 'assigned'
 // }
 
-function randAssignment(n) {
-  let res = []
-  for (let i = 0; i < n; i++) {
-    res.push({name: `HWK-${i}`, assigned: '12/12/12', due: '12/12/12'})
-  }
-  return res
-}
-function randGrade(n) {
-  let res= []
-  if (n === undefined) {
-    res = (Math.random() * 100).toString().slice(0,5)
-  } else {
-    for (let i = 0; i < n; i++) {
-      res.push((Math.random() * 100).toString().slice(0,5))
-    }
-  }
-  return res
-}
-
-function randStudent(n) {
-  let res = []
-  for (let i = 0; i < n; i++) {
-    res.push({name: `Student-${i}`, grades: randGrade(N_ASSIGNMENTS)})
-  }
-  return res
-}
-
 class TeacherView extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      assignments: randAssignment(N_ASSIGNMENTS),
-      students: randStudent(N_STUDENTS),
       selectedCell: '',
       stuMap: {},
       assignmentList: [],
@@ -96,7 +65,13 @@ class TeacherView extends Component {
     console.log('Student: ', e.target.id.split('][')[0], ' Assignment: ', e.target.id.split('][')[1])
     this.setState({selectedCell: e.target.id})
   }
+  save = () => {
+    this.setState({selectedCell: ''})
+  }
   renderStudent = (student, name) => {
+    let average = 0;
+    let sum = 0
+    let count = 0;
     return (
       <tr>
         <td style={{width: COL_WIDTH}}>{name}</td>
@@ -109,22 +84,26 @@ class TeacherView extends Component {
             if (grade > 90) {
               style.backgroundColor = 'lightgreen'
             } else if (grade > 80) {
-              style.backgroundColor = 'white'
+              style.backgroundColor = 'lightGrey'
             } else if (grade > 70) {
               style.backgroundColor = 'orange'
             } else if (grade < 30){
               style.backgroundColor = 'pink'
             }
+            sum = sum + student[key]
+            count++
+            average = sum / count
             return (<td id={`${name}][${key}`} style={style} onClick={this.gradeClick}>{student[key] || 'None'}</td>)
           }
         })}
+        <td>{average.toFixed(2) || 'None'}</td>
       </tr>
     )
   }
 
   render () {
     return (
-      <div style={{border: '3px solid black', width: '100%'}}>
+      <div style={{border: '3px solid black', width: '100%', marginTop: '200px'}}>
       <div style={{display: 'flex', flexDirection: 'row'}}>
         <div style={{width: '70%'}}>Welcome, Teacher</div><a onClick={this.onLogout}>Logout</a>
       </div>
@@ -136,6 +115,9 @@ class TeacherView extends Component {
             {Object.keys(this.state.stuMap).map((key) => this.renderStudent(this.state.stuMap[key], key))}
           </tbody>
         </table>
+        <div style={{display: 'flex', flexDirection: 'row-reverse', margin: '5px'}}>
+          <button onClick={this.save}>Save</button>
+        </div>
       </div>
     )
   }
