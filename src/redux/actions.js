@@ -32,6 +32,12 @@ export const setCourse = (course) => {
   }
 }
 
+export const clearData = () => {
+  return dispatch => {
+    return dispatch({type: 'CLEAR_DATA', data: {}})
+  }
+}
+
 export const fetchClassInfoForStudent = (studentId, classId) => {
   return dispatch => {
     return client.post('/class/student', {sId: studentId, cId: classId})

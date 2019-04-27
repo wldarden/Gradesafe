@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchClassInfoForTeacher} from '../redux/actions'
+import {fetchClassInfoForTeacher, clearData} from '../redux/actions'
 import {DataForStudentCourse} from '../redux/selector'
 import {Set} from 'immutable'
 // const labelOrder = ['Assignment', 'Assigned', 'Due', 'Grade']
@@ -23,7 +23,9 @@ class TeacherView extends Component {
     }
   }
   componentDidMount () {
-    console.log(this.props)
+    if (!Object.keys(this.props.user).length) {
+      this.onLogout()
+    }
     this.props.fetchClassInfoForTeacher(this.props.course.id).then(action => {
       if (action.type === 'FETCH_CLASS_SUCCESS') {
         let assignments = action.data.data
@@ -59,7 +61,11 @@ class TeacherView extends Component {
     )
   }
   onLogout = () => {
+    this.props.clearData()
     this.props.history.push('/')
+  }
+  back = () => {
+    this.props.history.push('/classes')
   }
   gradeClick = (e) => {
     console.log('Student: ', e.target.id.split('][')[0], ' Assignment: ', e.target.id.split('][')[1])
@@ -117,10 +123,11 @@ class TeacherView extends Component {
         </table>
         <div style={{display: 'flex', flexDirection: 'row-reverse', margin: '5px'}}>
           <button onClick={this.save}>Save</button>
+          <button style={{marginRight: '5px'}}onClick={this.back}>Back</button>
         </div>
       </div>
     )
   }
 }
 
-export default connect(DataForStudentCourse, {fetchClassInfoForTeacher})(TeacherView)
+export default connect(DataForStudentCourse, {fetchClassInfoForTeacher, clearData})(TeacherView)

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchClassInfoForStudent} from '../redux/actions'
+import {fetchClassInfoForStudent, clearData} from '../redux/actions'
 import {DataForStudentCourse} from '../redux/selector'
 import moment from 'moment'
 const labelOrder = ['Assignment', 'Assigned', 'Due', 'Grade']
@@ -31,6 +31,9 @@ class StudentView extends Component {
     }
   }
   componentDidMount () {
+    if (!Object.keys(this.props.user).length) {
+      this.onLogout()
+    }
     this.props.fetchClassInfoForStudent(this.props.user.S_ID, this.props.course.id).then(action => {
       if (action.type === 'FETCH_CLASS_SUCCESS') {
         this.setState({assignments: action.data.data})
@@ -42,10 +45,17 @@ class StudentView extends Component {
   }
 
   onLogout = () => {
+    this.props.clearData()
     this.props.history.push('/')
+  }
+  back = () => {
+    this.props.history.push('/classes')
   }
 
   render () {
+    let average = 0;
+    let sum = 0
+    let count = 0;
     return (
       <div style={{border: '3px solid black', width: '100%', marginTop: '200px'}}>
         <div style={{display: 'flex', flexDirection: 'row'}}>
@@ -74,7 +84,12 @@ class StudentView extends Component {
                       style.backgroundColor = 'red'
                     }
                   }
-                  // console.log()
+                  if (label === 'Grade') {
+                    sum = sum + row[assignmentKeyLabels[label]]
+                    count++
+                    average = sum / count
+                  }
+
                   return (
                     <td key={label} style={style}>
                       {(label === 'Assigned' || label === 'Due') ? moment(row[assignmentKeyLabels[label]]).format('MM/DD/YYYY') : row[assignmentKeyLabels[label]]}
@@ -84,12 +99,24 @@ class StudentView extends Component {
               </tr>
             )
           })}
+          <tr key={'average'}>
+            {labelOrder.map(label => {
+              if (label === 'Grade') {
+                return (<td key={'avg'}>{average.toFixed(2)}</td>)
+              } else {
+                return (<td></td>)
+              }
+            })}
+          </tr>
           </tbody>
         </table>
+        <div style={{display: 'flex', flexDirection: 'row-reverse', margin: '5px'}}>
+          <button onClick={this.back}>Back</button>
+        </div>
       </div>
     )
   }
 
 }
 
-export default connect(DataForStudentCourse, {fetchClassInfoForStudent})(StudentView)
+export default connect(DataForStudentCourse, {fetchClassInfoForStudent, clearData})(StudentView)

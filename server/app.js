@@ -80,7 +80,7 @@ app.post('/classes', function (req, res) {// student
         })
         setTimeout(() => {
           res.send(newCourses);
-        }, 1000)
+        }, 250)
 
       } else {
         res.status(400).send({message: "Unable to fetch courses"})

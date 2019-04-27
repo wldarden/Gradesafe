@@ -7,6 +7,9 @@ const reducer = (state = Map(), action) => {
         return state.set('user', user);
       case ('SET_COURSE'):
         return state.set('course', action.data)
+      case ('CLEAR_DATA'):
+        state = state.set('user', {})
+        return state.set('course', {})
       default:
           return state;
   }
