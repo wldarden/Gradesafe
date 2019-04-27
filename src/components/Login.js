@@ -52,6 +52,7 @@ class _Login extends Component {
               <span style={{marginRight: '10px'}}>Username:</span>
               <span>
                 <input
+                  style={{width: '50%'}}
                   name={'userName'}
                   onChange={this.onInputChange}
                   value={this.state.userName}
@@ -62,6 +63,7 @@ class _Login extends Component {
               <span style={{marginRight: '10px'}}>Password:</span>
               <span>
                 <input
+                  style={{width: '50%'}}
                   name={'password'}
                   onChange={this.onInputChange}
                   value={this.state.password}
