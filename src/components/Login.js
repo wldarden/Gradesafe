@@ -47,7 +47,7 @@ class _Login extends Component {
               {this.userTypes.map((t) => <option key={t.toLowerCase()} value={t.toLowerCase()}>{t}</option>)}
             </select>
           </div>
-          <div style={{margin: 'auto', border: '1px solid blue', width: '200px'}}>
+          <div style={{margin: 'auto', border: '1px solid blue', width: '50%'}}>
             <div style={{margin: '10px'}}>
               <span style={{marginRight: '10px'}}>Username:</span>
               <span>
