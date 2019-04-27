@@ -12,7 +12,7 @@ Once the project is cloned to your local repositorty, run the following commands
 
 $ git clone https://github.com/wldarden/Gradesafe.git
 
-$ cd yahoo-weather-api-app
+$ cd Gradesafe
 
 $ npm install
 
