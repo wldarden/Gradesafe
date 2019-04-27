@@ -13,3 +13,15 @@ export const login = (email, password, userType) => {
       })
   }
 };
+
+export const fetchClasses = (email) => {
+  return dispatch => {
+    return client.post('/classes', {email: email})
+    .then(res => {
+      return dispatch({type: 'FETCH_CLASSES_SUCCESS', data: res})
+    })
+    .catch(err => {
+      return dispatch({type: 'FETCH_CLASSES_FAILURE', error: err.response})
+    })
+  }
+}

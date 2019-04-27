@@ -39,11 +39,25 @@ app.post('/login', function (req, res) {// student
   let query = 'select * from ' + userType + ' where EMAIL = ' + "'" + username + "'" + ' and PASSWORD = ' + "'" + md5(password) + "'"
   con.connect((err) => {
     con.query(query, (err, response) => {
-      console.log(response, response.length, err, 'response loggggg')
       if (response && !err) {
         res.send(response);
       } else {
         res.status(400).send({message: "Unable to login with that information"})
+      }
+
+    })
+  })
+});
+
+app.post('/classes', function (req, res) {// student
+  let email = req.body.email
+  let query = 'SELECT DISTINCT C.CNAME FROM course C, grades G, student S WHERE S.EMAIL = ' + "'" + email + "'" + ' AND S.S_ID=G.S_ID AND C.C_ID=G.C_ID'
+  con.connect((err) => {
+    con.query(query, (err, response) => {
+      if (response && !err) {
+        res.send(response);
+      } else {
+        res.status(400).send({message: "Unable to fetch courses"})
       }
 
     })

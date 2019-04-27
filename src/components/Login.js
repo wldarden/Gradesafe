@@ -17,7 +17,7 @@ class _Login extends Component {
   login = () => {
     this.props.login(this.state.userName, this.state.password, this.state.userType).then((action) => {
       if (action.type === 'LOGIN_SUCCESS') {
-        this.props.history.push(`/${this.state.userType}`)
+        this.props.history.push(`/${this.state.userType}/classes`)
       } else {
         if (action.error && action.error.data && action.error.data.message) {
           this.setState({error: action.error.data.message})
