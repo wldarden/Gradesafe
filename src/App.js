@@ -1,25 +1,20 @@
-import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-import {Router} from 'react-router'
-import {Provider} from 'react-redux'
+import React, { Component } from 'react';
+import './App.css';
+import Login from "./components/Login";
+import Student from "./components/StudentView";
+import Teacher from "./components/TeacherView";
+import { Route } from 'react-router-dom';
 
-export default class App extends Component {
-  static propTypes = {
-    store: PropTypes.object,
-    history: PropTypes.object,
-    routes: PropTypes.node,
-  }
-
-  render () {
-    const {store, history, routes} = this.props
+class App extends Component {
+  render() {
     return (
-      <Provider store={store}>
-        <div>
-          <Router history={history}>
-            {routes}
-          </Router>
-        </div>
-      </Provider>
-    )
+      <div className="App">
+          <Route exact path='/' component={Login}/>
+          <Route exact path='/student' component={Student}/>
+          <Route exact path='/teacher' component={Teacher}/>
+      </div>
+    );
   }
 }
+
+export default App;

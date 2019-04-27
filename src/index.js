@@ -1,34 +1,18 @@
-import React from 'react'
-import config from './config'
-// import './style'
-import ReactDOM from 'react-dom'
-import routes from './routes'
-import SSOApp from './Auth/sso-index'
-import {AppContainer} from 'react-hot-loader'
-import {syncHistoryWithStore} from 'react-router-redux'
-import {browserHistory} from 'react-router'
-import store from './store'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
+import './index.css';
 import App from './App'
+import registerServiceWorker from './registerServiceWorker';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Provider} from 'react-redux';
+import Store from './redux/store'
 
-const history = syncHistoryWithStore(browserHistory, store, {selectLocationState: state => state.get('Routes').toJS()})
-
-console.log(config) // eslint-disable-line no-console
-const render = props => {
-  ReactDOM.render(
-    <AppContainer>
-      <App {...props} />
-    </AppContainer>,
-    document.getElementById('app')
-  )
-}
-const renderApp = () => {
-  return render({store, history, routes})
-}
-SSOApp(renderApp)
-
-if (module.hot) {
-  module.hot.accept('./routes', () => {
-    const newRoutes = require('./routes').default
-    render({store, history, newRoutes})
-  })
-}
+ReactDOM.render(
+    <Provider store={Store}>
+    <Router>
+        <App />
+    </Router>
+    </Provider>
+    ,document.getElementById('root'));
+registerServiceWorker();
