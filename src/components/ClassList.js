@@ -14,15 +14,27 @@ class ClassList extends Component {
   }
 
   componentDidMount () {
-    this.props.fetchClasses(this.props.user.EMAIL).then(action => {
-      this.setState({classes: action.data.data})
-    })
+    console.log(this.props.user)
+    if (this.props.user.S_ID) {
+      this.props.fetchClasses(this.props.user.EMAIL, 'student').then(action => {
+        this.setState({classes: action.data.data})
+      })
+    } else {
+      this.props.fetchClasses(this.props.user.EMAIL, 'professor').then(action => {
+        this.setState({classes: action.data.data})
+      })
+    }
+
   }
 
   onClassSelect = (e) => {
     console.log(e.target.name, e.target.id, e.target)
     this.props.setCourse({CNAME: e.target.name, id: e.target.id})
-    this.props.history.push(`/student`)
+    if (this.props.user.S_ID) {
+      this.props.history.push(`/student`)
+    } else {
+      this.props.history.push(`/teacher`)
+    }
   }
 
   render () {

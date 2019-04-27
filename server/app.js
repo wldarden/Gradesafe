@@ -35,7 +35,7 @@ var vPW = (str) => validPWRE.test(str)
 app.post('/login', function (req, res) {// student
   let username = req.body.email
   let password = req.body.password
-  let userType = req.body.userType
+  let userType = req.body.userType === 'teacher' ? 'professor' : req.body.userType
   let query = 'select * from ' + userType + ' where EMAIL = ' + "'" + username + "'" + ' and PASSWORD = ' + "'" + md5(password) + "'"
   con.connect((err) => {
     con.query(query, (err, response) => {
@@ -51,7 +51,13 @@ app.post('/login', function (req, res) {// student
 
 app.post('/classes', function (req, res) {// student
   let email = req.body.email
-  let query = 'SELECT DISTINCT C.CNAME FROM course C, grades G, student S WHERE S.EMAIL = ' + "'" + email + "'" + ' AND S.S_ID=G.S_ID AND C.C_ID=G.C_ID'
+  let userType = req.body.userType
+  let query = ''
+  if (userType === 'student') {
+    query = 'SELECT DISTINCT C.CNAME FROM course C, grades G, student S WHERE S.EMAIL = ' + "'" + email + "'" + ' AND S.S_ID=G.S_ID AND C.C_ID=G.C_ID'
+  } else {
+    query = 'SELECT DISTINCT C.CNAME FROM course C, professor P WHERE P.EMAIL = ' + "'" + email + "'" + ' AND C.C_ID=P.C_ID';
+  }
   con.connect((err) => {
     con.query(query, (err, response) => {
       if (response && !err) {
