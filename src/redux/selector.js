@@ -1,5 +1,5 @@
 import {createStructuredSelector} from 'reselect';
-import {Set, Map, List} from 'immutable'
+import {Map} from 'immutable'
 
 export const DataForClassList = createStructuredSelector({
     user: (state) => state.get('user', Map())

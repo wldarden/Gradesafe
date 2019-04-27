@@ -1,4 +1,4 @@
-import {Map, Set, fromJS}  from 'immutable'
+import {Map}  from 'immutable'
 
 const reducer = (state = Map(), action) => {
   switch (action.type){
