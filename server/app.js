@@ -55,7 +55,21 @@ app.post('/classes', function (req, res) {// student
   con.connect((err) => {
     con.query(query, (err, response) => {
       if (response && !err) {
-        res.send(response);
+        let newCourses = []
+        response.forEach(c => {
+          let query = 'SELECT DISTINCT C_ID FROM course WHERE CNAME='+"'"+c.CNAME+"'";
+          con.query(query, (err, resp) => {
+            if (resp && !err) {
+              newCourses.push({CNAME: c.CNAME, id: resp[0].C_ID})
+            } else {
+              res.status(400).send({message: "Unable to fetch course"})
+            }
+          })
+        })
+        setTimeout(() => {
+          res.send(newCourses);
+        }, 1000)
+
       } else {
         res.status(400).send({message: "Unable to fetch courses"})
       }
@@ -63,6 +77,21 @@ app.post('/classes', function (req, res) {// student
     })
   })
 });
+app.post('/class/student', function (req, res) {// student
+  let sId = req.body.sId
+  let cId = req.body.cId
+  let query = 'SELECT G.ASSIGNMENTS, C.dateAssigned, C.dueDate, G.GRADE FROM course C, grades G WHERE G.S_ID=' + "'" + sId + "'" + ' AND G.C_ID=' + "'" + cId + "'" + ' AND C.C_ID=G.C_ID AND G.ASSIGNMENTS=C.ASSIGNMENTS'
+  con.connect((err) => {
+    con.query(query, (err, response) => {
+      if (response && !err) {
+        res.send(response);
+      } else {
+        res.status(400).send({message: "Unable to fetch class information for student"})
+      }
+    })
+  })
+});
+
 
 app.listen(3000, function () {
     console.log('Gradesafe app listening on port 3000!');

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchClasses} from '../redux/actions'
+import {fetchClasses, setCourse} from '../redux/actions'
 import {DataForClassList} from '../redux/selector'
 
 class ClassList extends Component {
@@ -19,12 +19,12 @@ class ClassList extends Component {
     })
   }
 
-  onClassSelect = () => {
+  onClassSelect = (e) => {
+    console.log(e.target.name, e.target.id, e.target)
+    this.props.setCourse({CNAME: e.target.name, id: e.target.id})
     this.props.history.push(`/student`)
   }
 
-  onUserTypeChange = (e) => { this.setState({userType: e.target.value}) }
-  onInputChange = (e) => { this.setState({[e.target.name]: e.target.value}) }
   render () {
     return (
       <div>
@@ -34,7 +34,7 @@ class ClassList extends Component {
         </div>
         <div style={{border: '1px solid black', textAlign: 'center'}}>
           {this.state.classes.map(c => {
-            return (<div onClick={this.onClassSelect}><a>{c.CNAME}</a></div>)
+            return (<div><a onClick={this.onClassSelect} name={c.CNAME} id={c.id}>{c.CNAME}</a></div>)
           })}
         </div>
       </div>
@@ -43,4 +43,4 @@ class ClassList extends Component {
   }
 }
 
-export default connect(DataForClassList, {fetchClasses})(ClassList)
+export default connect(DataForClassList, {fetchClasses, setCourse})(ClassList)
