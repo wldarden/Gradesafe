@@ -98,6 +98,19 @@ app.post('/class/student', function (req, res) {// student
   })
 });
 
+app.post('/class/teacher', function (req, res) {// student
+  let cId = req.body.cId
+  let query = 'SELECT S.FNAME, S.LNAME, G.ASSIGNMENTS, G.GRADE FROM student S, grades G, professor P WHERE P.C_ID=' + "'" + cId + "'" + ' AND G.C_ID=P.C_ID AND S.S_ID=G.S_ID;'
+  con.connect((err) => {
+    con.query(query, (err, response) => {
+      if (response && !err) {
+        res.send(response);
+      } else {
+        res.status(400).send({message: "Unable to fetch class information for professor"})
+      }
+    })
+  })
+});
 
 app.listen(3000, function () {
     console.log('Gradesafe app listening on port 3000!');

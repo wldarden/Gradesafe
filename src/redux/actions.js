@@ -14,9 +14,9 @@ export const login = (email, password, userType) => {
   }
 };
 
-export const fetchClasses = (email) => {
+export const fetchClasses = (email, userType) => {
   return dispatch => {
-    return client.post('/classes', {email: email})
+    return client.post('/classes', {email: email, userType: userType})
     .then(res => {
       return dispatch({type: 'FETCH_CLASSES_SUCCESS', data: res})
     })
@@ -27,7 +27,6 @@ export const fetchClasses = (email) => {
 }
 
 export const setCourse = (course) => {
-  console.log(course, 'course loggggggggg')
   return dispatch => {
     return dispatch({type: 'SET_COURSE', data: course})
   }
@@ -36,6 +35,18 @@ export const setCourse = (course) => {
 export const fetchClassInfoForStudent = (studentId, classId) => {
   return dispatch => {
     return client.post('/class/student', {sId: studentId, cId: classId})
+    .then(res => {
+      return dispatch({type: 'FETCH_CLASS_SUCCESS', data: res})
+    })
+    .catch(err => {
+      return dispatch({type: 'FETCH_CLASS_FAILURE', error: err.response})
+    })
+  }
+}
+
+export const fetchClassInfoForTeacher = (classId) => {
+  return dispatch => {
+    return client.post('/class/teacher', {cId: classId})
     .then(res => {
       return dispatch({type: 'FETCH_CLASS_SUCCESS', data: res})
     })

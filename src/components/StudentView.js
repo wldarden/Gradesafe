@@ -11,20 +11,6 @@ const assignmentKeyLabels = {
   Assigned: 'dateAssigned'
 }
 
-function randGrade() {
-  return (Math.random() * 100).toString().slice(0,5)
-}
-
-function randAssignment(n) {
-  let res = []
-  for (let i = 0; i < n; i++) {
-    res.push({name: `HWK-${i}`, grade: randGrade(), assigned: '12/12/12', due: '12/12/12'})
-  }
-  return res
-}
-
-const assignments = randAssignment(9)
-
 function renderHeader() {
   return (
     <tr>
