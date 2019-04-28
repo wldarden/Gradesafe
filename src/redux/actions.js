@@ -6,10 +6,21 @@ export const login = (email, password, userType) => {
   return dispatch => {
      return client.post('/login', {email: email, password: password, userType: userType})
          .then(res => {
-             return dispatch({type: 'LOGIN_SUCCESS', data: res})
+            if (res.data.length === 0){
+              return dispatch({type: 'LOGIN_FAILURE', error: 'No user found with that email and password'})
+            } else {
+              return dispatch({type: 'LOGIN_SUCCESS', data: res})
+            }
+
          })
          .catch(err => {
-             return dispatch({type: 'LOGIN_FAILURE', error: err.response})
+           console.log(err, 'err loggggg')
+            if (!err){
+              return dispatch({type: 'LOGIN_FAILURE', error: 'No User found with that email and password'})
+            } else {
+              return dispatch({type: 'LOGIN_FAILURE', error: err.response})
+            }
+
       })
   }
 };

@@ -19,7 +19,9 @@ class _Login extends Component {
       if (action.type === 'LOGIN_SUCCESS' && action.data && action.data.data && action.data.data.length > 0) {
         this.props.history.push(`/classes`)
       } else {
-        if (action.error && action.error.data && action.error.data.message) {
+        if (typeof action.error === 'string') {
+          this.setState({error: action.error})
+        } else if (action.error && action.error.data && action.error.data.message) {
           this.setState({error: action.error.data.message})
         } else {
           this.setState({error: 'An unknown error occured'})

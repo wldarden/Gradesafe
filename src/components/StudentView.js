@@ -31,7 +31,7 @@ class StudentView extends Component {
     }
   }
   componentDidMount () {
-    if (!Object.keys(this.props.user).length) {
+    if (!Object.keys(this.props.user).length || (this.props.user && !this.props.user.S_ID)) {
       this.onLogout()
     }
     this.props.fetchClassInfoForStudent(this.props.user.S_ID, this.props.course.id).then(action => {
