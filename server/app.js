@@ -36,12 +36,12 @@ app.post('/login', function (req, res) {// student
   let username = req.body.email
   let password = req.body.password
   let userType = req.body.userType === 'teacher' ? 'professor' : req.body.userType
-  console.log(username, md5(password))
+  // console.log(username, password, md5(password))
   if (!vEmail(username)) {
     res.status(402).send({message: 'Invalid email format'})
-  } else {// if (!vPW(password)) {
-    //res.status(402).send({message: 'Invalid password format'})
-  //} else {
+  } else if (!vPW(password)) {
+    res.status(402).send({message: 'Invalid password format'})
+  } else {
 
     let query = 'select * from ' + userType + ' where EMAIL = ' + "'" + username + "'" + ' and PASSWORD = ' + "'" + md5(password) + "'"
     con.connect((err) => {
