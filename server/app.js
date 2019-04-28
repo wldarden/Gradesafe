@@ -120,6 +120,6 @@ app.post('/class/teacher', function (req, res) {// student
   })
 });
 
-app.listen(3000, function () {
-    console.log('Gradesafe app listening on port 3000!');
+app.listen(3001, function () {
+    console.log('Gradesafe app listening on port 3001!');
 });
