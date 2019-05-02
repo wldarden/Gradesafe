@@ -72,3 +72,15 @@ export const fetchClassInfoForTeacher = (classId) => {
     })
   }
 }
+
+export const addAssignment = (classId, cName, aName) => {
+  return dispatch => {
+    return client.post('/class/teacher/assignment', {cId: classId, cName: cName, assignmentName: aName})
+    .then(res => {
+      return dispatch({type: 'ADD_ASSIGNMENT_SUCCESS', data: res})
+    })
+    .catch(err => {
+      return dispatch({type: 'ADD_ASSIGNMENT_FAILURE', error: err.response})
+    })
+  }
+}

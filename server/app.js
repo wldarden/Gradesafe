@@ -4,9 +4,11 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 var md5 = require('md5');
 var app = express();
+var moment = require('moment');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+// import moment from 'moment'
 
 // create connection
 var mysql = require('mysql');
@@ -39,11 +41,11 @@ app.post('/login', function (req, res) {// student
   // console.log(username, password, md5(password))
   if (!vEmail(username)) {
     res.status(402).send({message: 'Invalid email format'})
-  } else if (!vPW(password)) {
+  } else if (0 && !vPW(password)) {
     res.status(402).send({message: 'Invalid password format'})
   } else {
-
-    let query = 'select * from ' + userType + ' where EMAIL = ' + "'" + username + "'" + ' and PASSWORD = ' + "'" + md5(password) + "'"
+    // let test = 'c462106350f1fcc0b77fbfca4445cfb5' //jgaos teacher password
+    let query = 'select * from ' + userType + ' where EMAIL = ' + "'" + username + "'" + ' and PASSWORD = ' + "'" + md5(password) + "'" //md5(password)
     con.connect((err) => {
       con.query(query, (err, response) => {
         if (response && !err) {
@@ -120,6 +122,24 @@ app.post('/class/teacher', function (req, res) {// student
   })
 });
 
+app.post('/class/teacher/assignment', function (req, res) {// student
+  let cId = req.body.cId
+  let cName = req.body.cName
+  let assignmentName = req.body.assignmentName
+  let assigned = moment().format('YYYY-MM-DD')
+  let due = moment().add(7, 'days').format('YYYY-MM-DD')
+  let query = "insert into course (C_ID, CNAME, ASSIGNMENTS, dateAssigned, dueDate) VALUES (" +cId+ ",'"+cName+"', '"+assignmentName+"', '"+assigned+"', '"+due+"');"
+  con.connect((err) => {
+    con.query(query, (err, response) => {
+      if (response && !err) {
+        res.send(response);
+      } else {
+        console.log(response, err)
+        res.status(400).send({message: "Unable to add asignment"})
+      }
+    })
+  })
+});
 app.listen(3001, function () {
     console.log('Gradesafe app listening on port 3001!');
 });

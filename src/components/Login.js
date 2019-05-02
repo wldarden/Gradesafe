@@ -65,6 +65,7 @@ class _Login extends Component {
               <span style={{marginRight: '10px'}}>Password:</span>
               <span>
                 <input
+                  type='password'
                   style={{width: '50%'}}
                   name={'password'}
                   onChange={this.onInputChange}

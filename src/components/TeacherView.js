@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchClassInfoForTeacher, clearData} from '../redux/actions'
+import {fetchClassInfoForTeacher, clearData, addAssignment} from '../redux/actions'
 import {DataForStudentCourse} from '../redux/selector'
 import {Set} from 'immutable'
 // const labelOrder = ['Assignment', 'Assigned', 'Due', 'Grade']
@@ -19,7 +19,8 @@ class TeacherView extends Component {
       selectedCell: '',
       stuMap: {},
       assignmentList: [],
-      error: ''
+      error: '',
+      newA: ''
     }
   }
   componentDidMount () {
@@ -47,6 +48,10 @@ class TeacherView extends Component {
 
     })
   }
+
+  changeAName = (e) => {
+    this.setState({newA: e.target.value})
+  }
   renderHeader(assignment) {
     return (
       <tr>
@@ -55,7 +60,7 @@ class TeacherView extends Component {
           return <td style={{width: COL_WIDTH}}>{k}</td>
         })}
         <td>
-          <input placeholder='Add Assignment...' />
+          <input onChange={this.changeAName} placeholder='Add Assignment...' />
         </td>
       </tr>
     )
@@ -72,7 +77,33 @@ class TeacherView extends Component {
     this.setState({selectedCell: e.target.id})
   }
   save = () => {
-    this.setState({selectedCell: ''})
+    if (this.state.selectedCell !== '') {
+
+        this.setState({selectedCell: ''})
+    }
+    if (this.state.newA !== '') {
+      this.props.addAssignment(this.props.course.id, this.props.course.CNAME, this.state.newA).then(() => {
+        this.props.fetchClassInfoForTeacher(this.props.course.id).then(action => {
+          if (action.type === 'FETCH_CLASS_SUCCESS') {
+            let assignments = action.data.data
+            let stuList = Set(assignments.map(a => a.FNAME + ' ' + a.LNAME)).toJS()
+            let assignmentList = Set(assignments.map(a => a.ASSIGNMENTS)).toJS()
+            let stuMap = {}
+            assignments.forEach(a => {
+              if (!stuMap[a.FNAME + ' ' + a.LNAME]) {
+                stuMap[a.FNAME + ' ' + a.LNAME] = {}
+              }
+              let newGradeMap = stuMap[a.FNAME + ' ' + a.LNAME]
+              newGradeMap[a.ASSIGNMENTS] = a.GRADE
+              stuMap[a.FNAME + ' ' + a.LNAME] = newGradeMap
+            })
+            this.setState({stuMap: stuMap, stuList: stuList, assignmentList: assignmentList})
+          } else {
+            this.setState({error: 'Cant Load class information'})
+          }
+        })
+      })
+    }
   }
   renderStudent = (student, name) => {
     let average = 0;
@@ -108,6 +139,7 @@ class TeacherView extends Component {
   }
 
   render () {
+    console.log(this.props, this.state)
     return (
       <div style={{border: '3px solid black', width: '100%', marginTop: '200px'}}>
       <div style={{display: 'flex', flexDirection: 'row'}}>
@@ -130,4 +162,4 @@ class TeacherView extends Component {
   }
 }
 
-export default connect(DataForStudentCourse, {fetchClassInfoForTeacher, clearData})(TeacherView)
+export default connect(DataForStudentCourse, {fetchClassInfoForTeacher, clearData, addAssignment})(TeacherView)
