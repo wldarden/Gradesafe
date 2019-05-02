@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchClassInfoForTeacher, clearData, addAssignment} from '../redux/actions'
+import {fetchClassInfoForTeacher, clearData, addAssignment, changeGrade} from '../redux/actions'
 import {DataForStudentCourse} from '../redux/selector'
 import {Set} from 'immutable'
 // const labelOrder = ['Assignment', 'Assigned', 'Due', 'Grade']
@@ -11,7 +11,6 @@ const COL_WIDTH = 150
 //   Due: 'due',
 //   Assigned: 'assigned'
 // }
-
 class TeacherView extends Component {
   constructor(props) {
     super(props)
@@ -19,34 +18,17 @@ class TeacherView extends Component {
       selectedCell: '',
       stuMap: {},
       assignmentList: [],
+      newGrade: '',
       error: '',
-      newA: ''
+      newA: '',
+      stuIdMap: {}
     }
   }
   componentDidMount () {
     if (!Object.keys(this.props.user).length || (this.props.user && this.props.user.S_ID)) {
       this.onLogout()
     }
-    this.props.fetchClassInfoForTeacher(this.props.course.id).then(action => {
-      if (action.type === 'FETCH_CLASS_SUCCESS') {
-        let assignments = action.data.data
-        let stuList = Set(assignments.map(a => a.FNAME + ' ' + a.LNAME)).toJS()
-        let assignmentList = Set(assignments.map(a => a.ASSIGNMENTS)).toJS()
-        let stuMap = {}
-        assignments.forEach(a => {
-          if (!stuMap[a.FNAME + ' ' + a.LNAME]) {
-            stuMap[a.FNAME + ' ' + a.LNAME] = {}
-          }
-          let newGradeMap = stuMap[a.FNAME + ' ' + a.LNAME]
-          newGradeMap[a.ASSIGNMENTS] = a.GRADE
-          stuMap[a.FNAME + ' ' + a.LNAME] = newGradeMap
-        })
-        this.setState({stuMap: stuMap, stuList: stuList, assignmentList: assignmentList})
-      } else {
-        this.setState({error: 'Cant Load class information'})
-      }
-
-    })
+    this.fetchClassData()
   }
 
   changeAName = (e) => {
@@ -73,36 +55,42 @@ class TeacherView extends Component {
     this.props.history.push('/classes')
   }
   gradeClick = (e) => {
-    console.log('Student: ', e.target.id.split('][')[0], ' Assignment: ', e.target.id.split('][')[1])
     this.setState({selectedCell: e.target.id})
+  }
+  onGradeChange = (e) => {
+    this.setState({newGrade: e.target.value})
+  }
+  fetchClassData = () => {
+    this.props.fetchClassInfoForTeacher(this.props.course.id).then(action => {
+      if (action.type === 'FETCH_CLASS_SUCCESS') {
+        let assignments = action.data.data
+        let stuList = Set(assignments.map(a => a.FNAME + ' ' + a.LNAME)).toJS()
+        let assignmentList = Set(assignments.map(a => a.ASSIGNMENTS)).toJS()
+        let stuMap = {}
+        let stuIdMap = {}
+        assignments.forEach(a => {
+          if (!stuMap[a.FNAME + ' ' + a.LNAME]) {
+            stuMap[a.FNAME + ' ' + a.LNAME] = {}
+          }
+          stuIdMap[a.FNAME + ' ' + a.LNAME] = a.S_ID
+          let newGradeMap = stuMap[a.FNAME + ' ' + a.LNAME]
+          newGradeMap[a.ASSIGNMENTS] = a.GRADE
+          stuMap[a.FNAME + ' ' + a.LNAME] = newGradeMap
+
+        })
+        this.setState({stuMap: stuMap, stuList: stuList, assignmentList: assignmentList, stuIdMap: stuIdMap})
+      } else {
+        this.setState({error: 'Cant Load class information'})
+      }
+    })
   }
   save = () => {
     if (this.state.selectedCell !== '') {
-
+        this.props.changeGrade(this.props.course.id, this.props.course.CNAME, this.state.selectedCell.split('][')[1], this.state.stuIdMap[this.state.selectedCell.split('][')[0]], this.state.newGrade).then(this.fetchClassData)
         this.setState({selectedCell: ''})
     }
     if (this.state.newA !== '') {
-      this.props.addAssignment(this.props.course.id, this.props.course.CNAME, this.state.newA).then(() => {
-        this.props.fetchClassInfoForTeacher(this.props.course.id).then(action => {
-          if (action.type === 'FETCH_CLASS_SUCCESS') {
-            let assignments = action.data.data
-            let stuList = Set(assignments.map(a => a.FNAME + ' ' + a.LNAME)).toJS()
-            let assignmentList = Set(assignments.map(a => a.ASSIGNMENTS)).toJS()
-            let stuMap = {}
-            assignments.forEach(a => {
-              if (!stuMap[a.FNAME + ' ' + a.LNAME]) {
-                stuMap[a.FNAME + ' ' + a.LNAME] = {}
-              }
-              let newGradeMap = stuMap[a.FNAME + ' ' + a.LNAME]
-              newGradeMap[a.ASSIGNMENTS] = a.GRADE
-              stuMap[a.FNAME + ' ' + a.LNAME] = newGradeMap
-            })
-            this.setState({stuMap: stuMap, stuList: stuList, assignmentList: assignmentList})
-          } else {
-            this.setState({error: 'Cant Load class information'})
-          }
-        })
-      })
+      this.props.addAssignment(this.props.course.id, this.props.course.CNAME, this.state.newA).then(this.fetchClassData)
     }
   }
   renderStudent = (student, name) => {
@@ -114,7 +102,7 @@ class TeacherView extends Component {
         <td style={{width: COL_WIDTH}}>{name}</td>
         {Object.keys(student).map((key) => {
           if (`${name}][${key}` === this.state.selectedCell) {
-            return <input style={{width: COL_WIDTH}} placeholder='Enter Grade...'/>
+            return <input style={{width: COL_WIDTH}} onChange={this.onGradeChange} placeholder='Enter Grade...'/>
           } else {
             let style = {width: COL_WIDTH, border: '1px solid black'}
             let grade = parseInt(student[key])
@@ -162,4 +150,4 @@ class TeacherView extends Component {
   }
 }
 
-export default connect(DataForStudentCourse, {fetchClassInfoForTeacher, clearData, addAssignment})(TeacherView)
+export default connect(DataForStudentCourse, {fetchClassInfoForTeacher, clearData, addAssignment, changeGrade})(TeacherView)

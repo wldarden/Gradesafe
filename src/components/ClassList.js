@@ -14,7 +14,6 @@ class ClassList extends Component {
   }
 
   componentDidMount () {
-        console.log(this.props.user, !this.props.user.size && !this.props.user.length, this.props.user.size, this.props.user.length)
     if (!Object.keys(this.props.user).length) {
       this.onLogout()
     }
