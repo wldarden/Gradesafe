@@ -139,7 +139,7 @@ class TeacherView extends Component {
   }
 
   render () {
-    console.log(this.props, this.state)
+    // console.log(this.props, this.state)
     return (
       <div style={{border: '3px solid black', width: '100%', marginTop: '200px'}}>
       <div style={{display: 'flex', flexDirection: 'row'}}>
