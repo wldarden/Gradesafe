@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchClassInfoForTeacher, clearData, addAssignment, changeGrade} from '../redux/actions'
+import {fetchClassInfoForTeacher, clearData, addAssignment, changeGrade, addGrade} from '../redux/actions'
 import {DataForStudentCourse} from '../redux/selector'
 import {Set} from 'immutable'
 // const labelOrder = ['Assignment', 'Assigned', 'Due', 'Grade']
@@ -42,7 +42,7 @@ class TeacherView extends Component {
           return <td style={{width: COL_WIDTH}}>{k}</td>
         })}
         <td>
-          <input onChange={this.changeAName} placeholder='Add Assignment...' />
+          <input onChange={this.changeAName} value={this.state.newA} placeholder='Add Assignment...' />
         </td>
       </tr>
     )
@@ -90,7 +90,15 @@ class TeacherView extends Component {
         this.setState({selectedCell: ''})
     }
     if (this.state.newA !== '') {
-      this.props.addAssignment(this.props.course.id, this.props.course.CNAME, this.state.newA).then(this.fetchClassData)
+      this.props.addAssignment(this.props.course.id, this.props.course.CNAME, this.state.newA).then((action) => {
+        if (action.type == 'ADD_ASSIGNMENT_SUCCESS') {
+          Object.keys(this.state.stuIdMap).forEach((key) => {
+            this.props.addGrade(this.props.course.id, this.props.course.CNAME, this.state.newA, this.state.stuIdMap[key]).then(this.fetchClassData)
+          })
+          setTimeout(this.fetchClassData, 1000)
+        }
+        this.setState({newA: ''})
+      })
     }
   }
   renderStudent = (student, name) => {
@@ -150,4 +158,4 @@ class TeacherView extends Component {
   }
 }
 
-export default connect(DataForStudentCourse, {fetchClassInfoForTeacher, clearData, addAssignment, changeGrade})(TeacherView)
+export default connect(DataForStudentCourse, {fetchClassInfoForTeacher, clearData, addAssignment, changeGrade, addGrade})(TeacherView)

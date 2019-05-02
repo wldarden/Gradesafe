@@ -44,8 +44,8 @@ app.post('/login', function (req, res) {// student
   } else if (0 && !vPW(password)) {
     res.status(402).send({message: 'Invalid password format'})
   } else {
-    let test = 'c462106350f1fcc0b77fbfca4445cfb5' //jgaos teacher password
-    let query = 'select * from ' + userType + ' where EMAIL = ' + "'" + username + "'" + ' and PASSWORD = ' + "'" + test + "'" //md5(password)
+    // let test = 'c462106350f1fcc0b77fbfca4445cfb5' //jgaos teacher password
+    let query = 'select * from ' + userType + ' where EMAIL = ' + "'" + username + "'" + ' and PASSWORD = ' + "'" + md5(password) + "'" //md5(password)
     con.connect((err) => {
       con.query(query, (err, response) => {
         if (response && !err) {
@@ -148,6 +148,24 @@ app.post('/class/teacher/grade', function (req, res) {// student
   let assignmentName = req.body.assignmentName
   let sId = req.body.sId
   let query = "UPDATE grades SET GRADE='"+grade+"' WHERE S_ID="+sId+" AND C_ID="+cId+" AND ASSIGNMENTS='"+assignmentName+"';"
+  con.connect((err) => {
+    con.query(query, (err, response) => {
+      if (response && !err) {
+        res.send(response);
+      } else {
+        console.log(response, err)
+        res.status(400).send({message: "Unable to modify grade"})
+      }
+    })
+  })
+});
+
+app.post('/class/teacher/grade/add', function (req, res) {// student
+  let cId = req.body.cId
+  let grade = req.body.grade
+  let assignmentName = req.body.assignmentName
+  let sId = req.body.sId
+  let query = "INSERT INTO grades(S_ID, C_ID, ASSIGNMENTS, GRADE) VALUES ("+sId+","+cId+",'"+assignmentName+"',0);"
   con.connect((err) => {
     con.query(query, (err, response) => {
       if (response && !err) {

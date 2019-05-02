@@ -83,6 +83,17 @@ export const addAssignment = (classId, cName, aName) => {
     })
   }
 }
+export const addGrade = (classId, cName, aName, sId) => {
+  return dispatch => {
+    return client.post('/class/teacher/grade/add', {cId: classId, cName: cName, assignmentName: aName, sId: sId})
+    .then(res => {
+      return dispatch({type: 'ADD_GRADE_SUCCESS', data: res})
+    })
+    .catch(err => {
+      return dispatch({type: 'ADD_GRADE_FAILURE', error: err.response})
+    })
+  }
+}
 
 export const changeGrade = (classId, cName, aName, sId, grade) => {
   return dispatch => {
